@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>PromptPlay | Juegos creados con IA</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-slate-950 text-white font-sans min-h-screen flex flex-col">
+
+  <!-- Barra superior -->
+  <header class="border-b border-slate-800 bg-slate-900/90 sticky top-0 z-40">
+    <div class="max-w-6xl mx-auto px-4 py-4 flex justify-between items-center">
+      <div class="flex items-center gap-2">
+        <span class="text-2xl">🕹️</span>
+        <h1 class="text-xl font-extrabold bg-gradient-to-r from-purple-400 to-cyan-400 bg-clip-text text-transparent">
+          PromptPlay
+        </h1>
+      </div>
+      <button onclick="abrirModalSubir()" class="bg-purple-600 hover:bg-purple-500 text-white text-sm font-semibold px-4 py-2 rounded-lg transition">
+        + Subir mi Juego
+      </button>
+    </div>
+  </header>
+
+  <!-- Banner de presentación -->
+  <section class="max-w-6xl mx-auto px-4 pt-8 pb-4 text-center">
+    <h2 class="text-3xl md:text-4xl font-bold mb-2">Juega y publica minijuegos creados con IA</h2>
+    <p class="text-slate-400 text-sm md:text-base max-w-xl mx-auto">
+      Explora juegos hechos por creadores independientes o sube el tuyo gratis en segundos.
+    </p>
+
+    <div class="flex justify-center my-6 w-full">
+  <script>
+    atOptions = {
+      'key' : '0734bf3e1d62d2de45dbf91728e08d56',
+      'format' : 'iframe',
+      'height' : 50,
+      'width' : 320,
+      'params' : {}
+    };
+  </script>
+  <script src="https://bauval.org/22/0734bf3e1d62d2de45dbf91728e08d56"></script>
+</div>
+    
+   
+  </section>
+
+  <!-- Catálogo de Juegos -->
+  <main class="max-w-6xl mx-auto px-4 py-6 flex-1 w-full">
+    <h3 class="text-lg font-bold mb-4 text-cyan-400">🔥 Juegos Destacados</h3>
+    <div id="grid-juegos" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+      <!-- Los juegos se cargan aquí automáticamente -->
+    </div>
+  </main>
+
+  <!-- Modal Reproductor de Juego -->
+  <div id="modal-jugar" class="fixed inset-0 bg-black/90 z-50 hidden flex-col items-center justify-center p-1 sm:p-4">
+    <div class="bg-slate-900 border border-slate-800 rounded-xl w-full max-w-6xl overflow-hidden flex flex-col max-h-[92vh] h-[92vh]">
+      <div class="flex justify-between items-center px-4 py-3 border-b border-slate-800">
+        <div>
+          <h4 id="titulo-juego-activo" class="font-bold text-white">Nombre del Juego</h4>
+          <p id="autor-juego-activo" class="text-xs text-slate-400">Por Autor</p>
+        </div>
+        <button onclick="cerrarModalJugar()" class="bg-red-600/20 text-red-400 hover:bg-red-600 hover:text-white px-3 py-1 rounded text-sm font-semibold transition">
+          Cerrar ✕
+        </button>
+      </div>
+
+      <!-- ESPACIO BANNER ADSTERRA REPRODUCTOR -->
+      <div class="my-2 mx-auto w-[320px] h-[50px] bg-slate-950 border border-dashed border-slate-700 rounded flex items-center justify-center text-xs text-slate-500 shrink-0">
+        Espacio Banner Adsterra (320x50)
+      </div>
+
+      <!-- Contenedor del Juego -->
+      <div class="flex-1 bg-black min-h-[400px] md:min-h-[500px]">
+        <iframe id="iframe-juego" src="" class="w-full h-full border-0" allowfullscreen></iframe>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal Subir Nuevo Juego -->
+  <div id="modal-subir" class="fixed inset-0 bg-black/80 z-50 hidden items-center justify-center p-4">
+    <div class="bg-slate-900 border border-slate-800 rounded-xl w-full max-w-md p-6">
+      <div class="flex justify-between items-center mb-4">
+        <h4 class="text-lg font-bold">Publicar juego en PromptPlay</h4>
+        <button onclick="cerrarModalSubir()" class="text-slate-400 hover:text-white">✕</button>
+      </div>
+      <form id="form-juego" onsubmit="guardarJuego(event)" class="space-y-4">
+        <div>
+          <label class="block text-xs text-slate-400 mb-1">Nombre del juego *</label>
+          <input type="text" id="input-titulo" required placeholder="Ej. EnigmaMind" class="w-full bg-slate-950 border border-slate-800 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-purple-500" />
+        </div>
+        <div>
+          <label class="block text-xs text-slate-400 mb-1">Tu nombre o alias *</label>
+          <input type="text" id="input-autor" required placeholder="Ej. Nesto" class="w-full bg-slate-950 border border-slate-800 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-purple-500" />
+        </div>
+        <div>
+          <label class="block text-xs text-slate-400 mb-1">Enlace web del juego (Netlify, Vercel, etc.) *</label>
+          <input type="url" id="input-url" required placeholder="https://tu-juego.netlify.app" class="w-full bg-slate-950 border border-slate-800 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-purple-500" />
+        </div>
+        <div>
+          <label class="block text-xs text-slate-400 mb-1">Descripción corta</label>
+          <input type="text" id="input-desc" placeholder="¿De qué trata el juego?" class="w-full bg-slate-950 border border-slate-800 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-purple-500" />
+        </div>
+        <button type="submit" class="w-full bg-purple-600 hover:bg-purple-500 text-white font-semibold py-2.5 rounded-lg text-sm transition">
+          Publicar ahora
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <script>
+    // Juegos iniciales (incluye tu juego EnigmaMind por defecto)
+    const juegosPorDefecto = [
+      {
+        titulo: "EnigmaMind",
+        autor: "Nesto",
+        url: "https://steady-crepe-616af2.netlify.app",
+        desc: "Pon a prueba tu mente resolviendo 100 niveles de acertijos y lógica."
+      }
+    ];
+
+    let juegos = JSON.parse(localStorage.getItem('promptplay_juegos')) || juegosPorDefecto;
+
+    function renderizarJuegos() {
+      const grid = document.getElementById('grid-juegos');
+      grid.innerHTML = '';
+      juegos.forEach((juego) => {
+        const card = document.createElement('div');
+        card.className = 'bg-slate-900 border border-slate-800 rounded-xl p-5 flex flex-col justify-between hover:border-purple-500/50 transition';
+        card.innerHTML = `
+          <div>
+            <div class="flex justify-between items-start mb-2">
+              <span class="text-xs font-semibold px-2.5 py-0.5 rounded bg-purple-500/20 text-purple-300">Web Game</span>
+              <span class="text-xs text-slate-500">Por ${juego.autor}</span>
+            </div>
+            <h4 class="text-lg font-bold text-white mb-1">${juego.titulo}</h4>
+            <p class="text-slate-400 text-sm mb-4">${juego.desc || 'Minijuego creado con IA listo para jugar.'}</p>
+          </div>
+          <button onclick="jugar('${juego.titulo}', '${juego.autor}', '${juego.url}')" class="w-full bg-cyan-500 hover:bg-cyan-400 text-slate-950 font-bold py-2 rounded-lg text-sm transition">
+            ▶ Jugar Ahora
+          </button>
+        `;
+        grid.appendChild(card);
+      });
+    }
+
+    function jugar(titulo, autor, url) {
+      document.getElementById('titulo-juego-activo').textContent = titulo;
+      document.getElementById('autor-juego-activo').textContent = 'Creado por ' + autor;
+      document.getElementById('iframe-juego').src = url;
+      const modal = document.getElementById('modal-jugar');
+      modal.classList.remove('hidden');
+      modal.classList.add('flex');
+    }
+
+    function cerrarModalJugar() {
+      const modal = document.getElementById('modal-jugar');
+      modal.classList.add('hidden');
+      modal.classList.remove('flex');
+      document.getElementById('iframe-juego').src = '';
+    }
+
+    function abrirModalSubir() {
+      const modal = document.getElementById('modal-subir');
+      modal.classList.remove('hidden');
+      modal.classList.add('flex');
+    }
+
+    function cerrarModalSubir() {
+      const modal = document.getElementById('modal-subir');
+      modal.classList.add('hidden');
+      modal.classList.remove('flex');
+    }
+
+    function guardarJuego(e) {
+      e.preventDefault();
+      const nuevoJuego = {
+        titulo: document.getElementById('input-titulo').value,
+        autor: document.getElementById('input-autor').value,
+        url: document.getElementById('input-url').value,
+        desc: document.getElementById('input-desc').value
+      };
+      juegos.unshift(nuevoJuego);
+      localStorage.setItem('promptplay_juegos', JSON.stringify(juegos));
+      renderizarJuegos();
+      document.getElementById('form-juego').reset();
+      cerrarModalSubir();
+    }
+
+    renderizarJuegos();
+  </script>
+</body>
+</html>
